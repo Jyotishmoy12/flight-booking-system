@@ -10,7 +10,7 @@ lets take a look inside the 'src' folder
 
 `middlewares` --> They are just going to intercept the incoming requests where we can write validators and authenticators.
 
-`controllers` --> They are kind of last middleware as post them you call your business layer to execute the actual logic. 
+`controllers` --> They are kind of last middleware as post them you call your business layer to execute the actual logic. And it will interact with services only.
 
 `respositories` --> This folder is used to interact with the database. This is where we will define all the database operations. All the raw SQL queries will be written here including the ORM logic.
 
