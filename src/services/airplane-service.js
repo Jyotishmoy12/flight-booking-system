@@ -10,11 +10,11 @@ async function createAirplane(data){
     }
     catch(error){
         if(error.name === "SequelizeValidationError"){
-            let explnanantion =[];
+            let explanation =[];
             error.errors.forEach(err => {
-                explnanantion.push(err.message);
+                explanation.push(err.message);
             })
-            throw new AppError('Cannot create a new airplane object', StatusCodes.BAD_REQUEST);
+            throw new AppError(explanation, StatusCodes.BAD_REQUEST);
         }
        throw new AppError('Cannot create a new airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -56,10 +56,23 @@ async function destroyAirplane(id){
     }
 }
 
+async function updateAirplane(id, data){
+    try{
+        const update = await airplaneRepository.update(id, data);
+        return update;
+    }
+    catch(error){
+        if(error.statusCode === StatusCodes.NOT_FOUND){
+            throw new AppError('The airplane you requested to update is not present', StatusCodes.NOT_FOUND);
+        }
+        throw new AppError('Cannot fetch data of all airplanes', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
 
 module.exports = {
     createAirplane,
     getAirplanes,
     getAirplane,
-    destroyAirplane
+    destroyAirplane,
+    updateAirplane
 };
