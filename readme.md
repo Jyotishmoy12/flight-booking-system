@@ -18,6 +18,14 @@ lets take a look inside the 'src' folder
 
 `utils` --> Contains helper methods error classes etc.
 
+`seeders` --> This folder is used to seed the database with some initial data. 
+The command for it in sequelize is
+
+```
+npx sequelize db:seed:all
+
+```
+
 ## setup the project
 
 Go inside src folder and execute the command:
