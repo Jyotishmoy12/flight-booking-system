@@ -124,6 +124,12 @@ Use the following command to generate a model with Sequelize:
 ```bash
 npx sequelize model:generate --name User --attributes name:string,email:string,password:string
 ```
+Use the following command to update a model:
+
+```bash
+npx sequelize migration:generate --name update-city-airport-association
+```
+
 
 This will create:
 
