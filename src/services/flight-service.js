@@ -64,10 +64,15 @@ async function getAllFlights(query) {
         sortFilter = sortFilters
     }
     try {
-        const flights = await flightRepository.getAllFlights(customFilter);
+        const flights = await flightRepository.getAllFlights(customFilter, sortFilter);
         return flights;
     } catch (error) {
-        throw new AppError('Cannot get all flights', StatusCodes.INTERNAL_SERVER_ERROR);
+            console.error("Error in getAllFlights service:", error); // Log the actual error
+    if (error.name === "SequelizeDatabaseError" || error.name === "SequelizeValidationError") {
+        // You can add more specific error handling here if needed
+        throw new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    throw new AppError('Cannot get all flights', StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
 }
