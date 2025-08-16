@@ -15,7 +15,6 @@
 
 <img width="1105" height="269" alt="image" src="https://github.com/user-attachments/assets/7d2543c5-fcef-4774-98be-b37993a6dbf2" />
 
-Got it ✅ — here’s the **final single Markdown file** you can copy directly into GitHub:
 
 ````markdown
 # Airplane API Documentation
@@ -246,9 +245,4 @@ Update details of an airplane by its ID.
 * `AirplaneMiddlewares.validateCreateRequest` ensures `modelNumber` and `capacity` are provided for `POST`.
 
 ---
-
-```
-
-
-```
 
