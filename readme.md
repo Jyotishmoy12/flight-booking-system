@@ -254,11 +254,6 @@ Update details of an airplane by its ID.
 
 <img width="1419" height="319" alt="image" src="https://github.com/user-attachments/assets/9b4c8f0f-28c2-4a92-9ff7-526d17378dcd" />
 
-Perfect ✅ thanks for pasting the Airport routes + controller.
-I see the payload now (`name`, `code`, `address`, `cityId`) and the structure is identical to airplanes (with `SuccessResponse` / `ErrorResponse`).
-
-Here’s the **single Markdown file** you can copy directly into GitHub for **Airport APIs**:
-
 ````markdown
 # Airport API Documentation
 
@@ -502,6 +497,339 @@ Update details of an airport by its ID.
 * `AirportMiddlewares.validateCreateRequest` ensures `name`, `code`, `address`, and `cityId` are provided for `POST`.
 
 ---
+
+
+### MySQL Database for cities:
+
+<img width="897" height="368" alt="image" src="https://github.com/user-attachments/assets/ff499d1c-7931-4237-bb9a-cf5fdf7da92e" />
+
+### Cities API's:
+
+````markdown
+# City API Documentation
+
+Base URL: `/api/v1/cities`
+
+---
+
+## 1. Create City
+
+**Endpoint:**  
+`POST /api/v1/cities`
+
+**Purpose:**  
+Create a new city entry.
+
+**Request Payload:**  
+```json
+{
+  "name": "London"
+}
+````
+
+**Response (201 - Created):**
+
+```json
+{
+  "success": true,
+  "message": "Successfully completed the request",
+  "data": {
+    "id": 1,
+    "name": "London",
+    "createdAt": "2025-08-16T12:34:56.000Z",
+    "updatedAt": "2025-08-16T12:34:56.000Z"
+  },
+  "error": {}
+}
+```
+
+**Validation Error (400 - Bad Request):**
+
+```json
+{
+  "success": false,
+  "message": "Something went wrong",
+  "data": {},
+  "error": {
+    "statusCode": 400,
+    "explanation": "name field is required"
+  }
+}
+```
+
+---
+
+## Notes
+
+* All responses follow a **consistent structure**:
+
+  ```json
+  {
+    "success": boolean,
+    "message": string,
+    "data": object | {},
+    "error": object | {}
+  }
+  ```
+* `CityMiddlewares.validateCreateRequest` ensures the `name` field is provided for `POST`.
+
+---
+
+
+### MySQL Database for flights:
+
+<img width="1915" height="939" alt="image" src="https://github.com/user-attachments/assets/03e7cec4-3785-4f62-afa0-e9247aa7f63d" />
+
+
+### Flights API'S:
+
+
+````markdown
+# Flight API Documentation
+
+Base URL: `/api/v1/flights`
+
+---
+
+## 1. Create Flight
+
+**Endpoint:**  
+`POST /api/v1/flights`
+
+**Purpose:**  
+Create a new flight entry.
+
+**Request Payload:**  
+```json
+{
+  "flightNumber": "1234",
+  "airplaneId": 1,
+  "departureAirportId": 1,
+  "arrivalAirportId": 2,
+  "departureTime": "2025-09-01T10:00:00.000Z",
+  "arrivalTime": "2025-09-01T12:00:00.000Z",
+  "price": 100,
+  "boardingGate": "A1",
+  "totalSeats": 100
+}
+````
+
+**Response (201 - Created):**
+
+```json
+{
+  "success": true,
+  "message": "Successfully completed the request",
+  "data": {
+    "id": 1,
+    "flightNumber": "1234",
+    "airplaneId": 1,
+    "departureAirportId": 1,
+    "arrivalAirportId": 2,
+    "departureTime": "2025-09-01T10:00:00.000Z",
+    "arrivalTime": "2025-09-01T12:00:00.000Z",
+    "price": 100,
+    "boardingGate": "A1",
+    "totalSeats": 100,
+    "createdAt": "2025-08-16T12:34:56.000Z",
+    "updatedAt": "2025-08-16T12:34:56.000Z"
+  },
+  "error": {}
+}
+```
+
+---
+
+## 2. Get All Flights
+
+**Endpoint:**
+`GET /api/v1/flights`
+
+**Purpose:**
+Retrieve a list of all flights.
+Supports query params such as `trips=MUM-DEL` for filtering.
+
+**Example Request:**
+`GET /api/v1/flights?trips=MUM-DEL`
+
+**Response (200 - OK):**
+
+```json
+{
+  "success": true,
+  "message": "Successfully completed the request",
+  "data": [
+    {
+      "id": 1,
+      "flightNumber": "1234",
+      "departureAirportId": 1,
+      "arrivalAirportId": 2,
+      "departureTime": "2025-09-01T10:00:00.000Z",
+      "arrivalTime": "2025-09-01T12:00:00.000Z",
+      "price": 100,
+      "boardingGate": "A1",
+      "totalSeats": 100
+    },
+    {
+      "id": 2,
+      "flightNumber": "5678",
+      "departureAirportId": 3,
+      "arrivalAirportId": 4,
+      "departureTime": "2025-09-02T14:00:00.000Z",
+      "arrivalTime": "2025-09-02T16:00:00.000Z",
+      "price": 120,
+      "boardingGate": "B2",
+      "totalSeats": 150
+    }
+  ],
+  "error": {}
+}
+```
+
+---
+
+## 3. Get Flight by ID
+
+**Endpoint:**
+`GET /api/v1/flights/:id`
+
+**Purpose:**
+Retrieve details of a single flight by its ID.
+
+**Response (200 - OK):**
+
+```json
+{
+  "success": true,
+  "message": "Successfully completed the request",
+  "data": {
+    "id": 1,
+    "flightNumber": "1234",
+    "airplaneId": 1,
+    "departureAirportId": 1,
+    "arrivalAirportId": 2,
+    "departureTime": "2025-09-01T10:00:00.000Z",
+    "arrivalTime": "2025-09-01T12:00:00.000Z",
+    "price": 100,
+    "boardingGate": "A1",
+    "totalSeats": 100
+  },
+  "error": {}
+}
+```
+
+**Response (404 - Not Found):**
+
+```json
+{
+  "success": false,
+  "message": "Something went wrong",
+  "data": {},
+  "error": {
+    "statusCode": 404,
+    "explanation": "Flight not found"
+  }
+}
+```
+
+---
+
+## 4. Update Flight
+
+**Endpoint:**
+`PATCH /api/v1/flights/:id`
+
+**Purpose:**
+Update details of a flight.
+
+**Request Payload (example):**
+
+```json
+{
+  "price": 120,
+  "boardingGate": "B2"
+}
+```
+
+**Response (200 - OK):**
+
+```json
+{
+  "success": true,
+  "message": "Successfully completed the request",
+  "data": {
+    "id": 1,
+    "flightNumber": "1234",
+    "price": 120,
+    "boardingGate": "B2",
+    "updatedAt": "2025-08-16T13:00:00.000Z"
+  },
+  "error": {}
+}
+```
+
+---
+
+## 5. Update Flight Seats
+
+**Endpoint:**
+`PATCH /api/v1/flights/:id/seats`
+
+**Purpose:**
+Increase or decrease available seats for a flight.
+
+**Request Payload (example - decrease seats by 2):**
+
+```json
+{
+  "seats": 2,
+  "dec": true
+}
+```
+
+**Request Payload (example - increase seats by 5):**
+
+```json
+{
+  "seats": 5,
+  "dec": false
+}
+```
+
+**Response (200 - OK):**
+
+```json
+{
+  "success": true,
+  "message": "Successfully completed the request",
+  "data": {
+    "id": 1,
+    "flightNumber": "1234",
+    "totalSeats": 98
+  },
+  "error": {}
+}
+```
+
+---
+
+## Notes
+
+* `FlightMiddlewares.validateCreateRequest` ensures all required fields are present when creating a flight.
+* `FlightMiddlewares.validateUpdateSeatsRequest` ensures `seats` and `dec` (boolean) are passed for updating seats.
+* All responses follow a **consistent structure**:
+
+  ```json
+  {
+    "success": boolean,
+    "message": string,
+    "data": object | {},
+    "error": object | {}
+  }
+  ```
+
+
+
 
 
 
